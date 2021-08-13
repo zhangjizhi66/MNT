@@ -1,0 +1,8 @@
+# ROOT file directory
+/CHICO_ROOT/*
+/GAMMAGT_ROOT/*
+/GAMMATK_ROOT/*
+/COIN_ROOT/*
+/MATRIX/*
+
+*.root

@@ -4,22 +4,22 @@
 
 #include <TFile.h>
 #include <TTree.h>
-#include <TH2.h>
+#include <TH3.h>
 
 int main(int argc, char **argv)
 {
     if (argc < 2){
-        printf("USAGE: ./delaydelay RunID\n");
+        printf("USAGE: ./promptdelaytime RunID\n");
         exit(EXIT_FAILURE);
     }
 
     int runid = atoi(argv[1]);
-    printf("drawing delayed-delayed gamma matrix %04d ......\n",runid);
+    printf("drawing prompt-delayed-time gamma cube %04d ......\n",runid);
 
     TFile* ipf = new TFile(Form("../../COIN_ROOT/coin%04d.root",runid));
     TTree* tree = (TTree*)ipf->Get("tree");
 
-    const char *filename = Form("../../MATRIX/delaydelay/ddmat%04d.root",runid);
+    const char *filename = Form("../../MATRIX/promptdelaytime/pdtmat%04d.root",runid);
     TFile *opf=new TFile(filename,"RECREATE");
 
     int ngam,dt[10000];
@@ -28,7 +28,9 @@ int main(int argc, char **argv)
     tree->SetBranchAddress("ge",&e);
     tree->SetBranchAddress("gdt",&dt);
 
-    TH2F *dd = new TH2F("dd","delayed-delayed g-g matrix",2000,0,2000,2000,0,2000);
+    // x:prompt y:delayed z:time
+    /// note: max bin number 1288*1288*1288
+    TH3F *pdt = new TH3F("pdt","prompt-delayed-time gamma cube",1500,0,1500,1500,0,1500,100,0,1000);
 
     clock_t start=clock(),stop=clock();
     int nentries = tree->GetEntries();
@@ -39,10 +41,10 @@ int main(int argc, char **argv)
             for (int jhit=0; jhit<ngam; jhit++)
             {
                 if ( ihit == jhit ) continue;
-                if ( dt[ihit]<30 || dt[jhit]<30 ) continue;
-                if ( abs(dt[ihit]-dt[jhit]) > 20 ) continue;
+                if ( dt[ihit]>30 || dt[ihit]<-30 ) continue;    //prompt
+                if ( dt[jhit]<30 ) continue;                    //delayed
 
-                dd->Fill(e[ihit],e[jhit]);
+                pdt->Fill(e[ihit],e[jhit],dt[jhit]-dt[ihit]);
             }
 
         //show progress and time needed

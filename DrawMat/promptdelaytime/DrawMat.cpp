@@ -23,13 +23,14 @@ int main(int argc, char **argv)
     TFile *opf=new TFile(filename,"RECREATE");
 
     int ngam,dt[10000];
-    float e[10000];
+    float e[10000],eP[10000];
     tree->SetBranchAddress("ng",&ngam);
     tree->SetBranchAddress("ge",&e);
+    tree->SetBranchAddress("geP",&eP);
     tree->SetBranchAddress("gdt",&dt);
 
     // x:prompt y:delayed z:time
-    /// note: max bin number 1288*1288*1288
+    /// note: bin number 1500*1500*1500 is known to overflow
     TH3F *pdt = new TH3F("pdt","prompt-delayed-time gamma cube",1500,0,1500,1500,0,1500,100,0,1000);
 
     clock_t start=clock(),stop=clock();
@@ -44,7 +45,7 @@ int main(int argc, char **argv)
                 if ( dt[ihit]>30 || dt[ihit]<-30 ) continue;    //prompt
                 if ( dt[jhit]<30 ) continue;                    //delayed
 
-                pdt->Fill(e[ihit],e[jhit],dt[jhit]-dt[ihit]);
+                pdt->Fill(eP[ihit],e[jhit],dt[jhit]-dt[ihit]);
             }
 
         //show progress and time needed

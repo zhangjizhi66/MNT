@@ -30,7 +30,7 @@ int main(int argc, char **argv)
     tree->SetBranchAddress("gdt",&dt);
 
     // x:prompt y:delayed z:time
-    /// note: bin number 1500*1500*1500 is known to overflow
+    /// note: bin number 1500*1500*200 is known to overflow
     TH3F *pdt = new TH3F("pdt","prompt-delayed-time gamma cube",1500,0,1500,1500,0,1500,100,0,1000);
 
     clock_t start=clock(),stop=clock();

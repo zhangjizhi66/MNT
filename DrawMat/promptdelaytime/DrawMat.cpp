@@ -23,11 +23,12 @@ int main(int argc, char **argv)
     TFile *opf=new TFile(filename,"RECREATE");
 
     int ngam,dt[10000];
-    float e[10000],eP[10000];
-    tree->SetBranchAddress("ng",&ngam);
-    tree->SetBranchAddress("ge",&e);
-    tree->SetBranchAddress("geP",&eP);
-    tree->SetBranchAddress("gdt",&dt);
+    float e[10000],eP[10000],fom[10000];
+    tree->SetBranchAddress("ntk",&ngam);
+    tree->SetBranchAddress("tke",&e);
+    tree->SetBranchAddress("tkeP",&eP);
+    tree->SetBranchAddress("tkdt",&dt);
+    tree->SetBranchAddress("tkfom",&fom);
 
     // x:prompt y:delayed z:time
     /// note: bin number 1500*1500*200 is known to overflow
@@ -42,6 +43,7 @@ int main(int argc, char **argv)
             for (int jhit=0; jhit<ngam; jhit++)
             {
                 if ( ihit == jhit ) continue;
+                if ( fom[ihit]>0.8 || fom[jhit]>0.8 ) continue;
                 if ( dt[ihit]>30 || dt[ihit]<-30 ) continue;    //prompt
                 if ( dt[jhit]<30 ) continue;                    //delayed
 
@@ -57,6 +59,7 @@ int main(int argc, char **argv)
             fflush(stdout);
         }
     }
+    printf("Process %.3f %%  Time remaining %02d min %02d s\r",100.,0,0);
 
     opf->Write(NULL, TObject::kOverwrite);
     opf->Close();

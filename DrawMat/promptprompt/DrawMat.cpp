@@ -23,11 +23,12 @@ int main(int argc, char **argv)
     TFile *opf=new TFile(filename,"RECREATE");
 
     int ngam,dt[10000];
-    float e[10000],eP[10000];
-    tree->SetBranchAddress("ng",&ngam);
-    tree->SetBranchAddress("ge",&e);
-    tree->SetBranchAddress("geP",&eP);
-    tree->SetBranchAddress("gdt",&dt);
+    float e[10000],eP[10000],fom[10000];
+    tree->SetBranchAddress("ntk",&ngam);
+    tree->SetBranchAddress("tke",&e);
+    tree->SetBranchAddress("tkeP",&eP);
+    tree->SetBranchAddress("tkdt",&dt);
+    tree->SetBranchAddress("tkfom",&fom);
 
     TH2F *pp = new TH2F("pp","prompt-prompt matrix gated on 136Ba delayed gamma",2000,0,2000,2000,0,2000);
 
@@ -42,8 +43,10 @@ int main(int argc, char **argv)
                 for (int khit=0; khit<ngam; khit++)//delayed
                 {
                     if ( ihit == jhit || ihit == khit || jhit == khit ) continue;
+                    if ( fom[ihit]>0.8 || fom[jhit]>0.8 || fom[khit]>0.8 ) continue;
                     if ( dt[ihit]>30 || dt[ihit]<-30 ) continue;    //prompt
                     if ( dt[jhit]>30 || dt[jhit]<-30 ) continue;    //prompt
+                    if ( abs(dt[ihit]-dt[jhit]) > 20 ) continue;
                     if ( dt[khit]<30 ) continue;                    //delayed
 
                     double delayed[6] = {340.8,363.0,787.1,818.6,1048.0,1235.2};
@@ -65,6 +68,7 @@ int main(int argc, char **argv)
             fflush(stdout);
         }
     }
+    printf("Process %.3f %%  Time remaining %02d min %02d s\r",100.,0,0);
 
     opf->Write(NULL, TObject::kOverwrite);
     opf->Close();

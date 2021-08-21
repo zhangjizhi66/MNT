@@ -10,7 +10,7 @@
 #include "makeCoin.h"
 
 #define maxCoin 10000
-#define winCoin 2000 //20us, according to /home/zhangjizhi/MNT/ana_convert.ipynb @ 162.105.151.64
+#define winCoin 2000 //2us, according to /data/d3/zhangjizhi/MNT/ana_convert.ipynb @ 162.105.151.64
 #define ch2ns 0.100
 #define beamE 1088.0
 #define beamA 136.0
@@ -18,22 +18,27 @@
 #define P0 16602.2
 #define Mtot 334.0
 
+// Branches of timstamp
 Double_t tsChico,tsGT;
 ULong64_t tsTK;
 
+// Branches of CHICO
 Int_t pid,dT;
 Long64_t ts;
 Float_t dofP,dofT,thetaP,thetaT,phiP,phiT,massP,massT,betaP,betaT,pP,pT,pseuQ,realQ;
 
+// Branches of GAMMAGT
 Float_t gtx[maxCoin],gty[maxCoin],gtz[maxCoin],gte[maxCoin],gttheta[maxCoin],gtphi[maxCoin];
 Float_t gteP[maxCoin],gteT[maxCoin],gtcosP[maxCoin],gtcosT[maxCoin];
 Int_t gtdt[maxCoin],gtid[maxCoin];
 
+// Branches of GAMMATK
 Float_t tkx0[maxCoin],tkx1[maxCoin],tky0[maxCoin],tky1[maxCoin],tkz0[maxCoin],tkz1[maxCoin];
 Float_t tke[maxCoin],tke0[maxCoin],tke1[maxCoin],tkfom[maxCoin],tktheta[maxCoin],tkphi[maxCoin];
 Float_t tkeP[maxCoin],tkeT[maxCoin],tkcosP[maxCoin],tkcosT[maxCoin];
 Int_t tkdt[maxCoin],tkndet[maxCoin],tkid[maxCoin];
 
+// Number of gamma events coincident with Chico event
 Int_t ngtCoin=0,ntkCoin=0;
 
 PARTICLE particle;
@@ -112,26 +117,26 @@ void SetBranch(TTree* tree){
     tree->Branch("gdt",&gtdt,"gdt[ng]/I");
     tree->Branch("gid",&gtid,"gid[ng]/I");
 
-    tree->Branch("ntk",&ntkCoin,"ntk/I");
-    tree->Branch("tke",&tke,"tke[ntk]/F");
-    tree->Branch("tkeP",&tkeP,"tkeP[ntk]/F");
-    tree->Branch("tkeT",&tkeT,"tkeT[ntk]/F");
-    tree->Branch("tkndet",&tkndet,"tkndet[ntk]/I");
-    tree->Branch("tkfom",&tkfom,"tkfom[ntk]/F");
-    tree->Branch("tkdt",&tkdt,"tkdt[ntk]/I");
-    tree->Branch("tkx0",&tkx0,"tkx0[ntk]/F");
-    tree->Branch("tky0",&tky0,"tky0[ntk]/F");
-    tree->Branch("tkz0",&tkz0,"tkz0[ntk]/F");
-    tree->Branch("tke0",&tke0,"tke0[ntk]/F");
-    tree->Branch("tkx1",&tkx1,"tkx1[ntk]/F");
-    tree->Branch("tky1",&tky1,"tky1[ntk]/F");
-    tree->Branch("tkz1",&tkz1,"tkz1[ntk]/F");
-    tree->Branch("tke1",&tke1,"tke1[ntk]/F");
-    tree->Branch("tkid",&tkid,"tkid[ntk]/I");  //first hit crystal id
-    tree->Branch("tktheta",&tktheta,"tktheta[ntk]/F");
-    tree->Branch("tkphi",&tkphi,"tkphi[ntk]/F");
-    tree->Branch("tkcosP",&tkcosP,"tkcosP[ntk]/F");
-    tree->Branch("tkcosT",&tkcosT,"tkcosT[ntk]/F");
+    tree->Branch("nG",&ntkCoin,"nG/I");
+    tree->Branch("Ge",&tke,"Ge[nG]/F");
+    tree->Branch("GeP",&tkeP,"GeP[nG]/F");
+    tree->Branch("GeT",&tkeT,"GeT[nG]/F");
+    tree->Branch("Gndet",&tkndet,"Gndet[nG]/I");
+    tree->Branch("Gfom",&tkfom,"Gfom[nG]/F");
+    tree->Branch("Gdt",&tkdt,"Gdt[nG]/I");
+    tree->Branch("Gx0",&tkx0,"Gx0[nG]/F");
+    tree->Branch("Gy0",&tky0,"Gy0[nG]/F");
+    tree->Branch("Gz0",&tkz0,"Gz0[nG]/F");
+    tree->Branch("Ge0",&tke0,"Ge0[nG]/F");
+    tree->Branch("Gx1",&tkx1,"Gx1[nG]/F");
+    tree->Branch("Gy1",&tky1,"Gy1[nG]/F");
+    tree->Branch("Gz1",&tkz1,"Gz1[nG]/F");
+    tree->Branch("Ge1",&tke1,"Ge1[nG]/F");
+    tree->Branch("Gid",&tkid,"Gid[nG]/I");  //first hit crystal id
+    tree->Branch("Gtheta",&tktheta,"Gtheta[nG]/F");
+    tree->Branch("Gphi",&tkphi,"Gphi[nG]/F");
+    tree->Branch("GcosP",&tkcosP,"GcosP[nG]/F");
+    tree->Branch("GcosT",&tkcosT,"GcosT[nG]/F");
 }
 
 void setupcut(const char* fn){
@@ -389,9 +394,10 @@ int main(int argc, char **argv)
             fflush(stdout);
         }
     }
-    printf("Process %.2f %%  Time remaining %02d min %02d s\r",100.,0,0);
+    stop = clock();
+    printf("Process %.3f %%  Total Time %02d min %02d s        \n",100.,int((stop-start)/1e6/60),int((stop-start)/1e6)%60);
 
-    printf("\nwriting to new root file ......\n");
+    printf("writing to new root file ......\n");
 
     // set branch address other than timestamp
     SetBranchAddressChico(treeChico);
@@ -447,7 +453,9 @@ int main(int argc, char **argv)
             fflush(stdout);
         }
     }
-    printf("Process %.2f %%  Time remaining %02d min %02d s\r",100.,0,0);
+    stop = clock();
+    printf("Process %.3f %%  Total Time %02d min %02d s        \n",100.,int((stop-start)/1e6/60),int((stop-start)/1e6)%60);
+   
     fChico->Close();
     fGT->Close();
     fTK->Close();
@@ -456,5 +464,5 @@ int main(int argc, char **argv)
     opt->Write();
     opf->Close();
 
-    printf("\nDone! Output file in ../COIN_ROOT/coin%04d.root\n",runid);
+    printf("Done! Output file in ../COIN_ROOT/coin%04d.root\n",runid);
 }

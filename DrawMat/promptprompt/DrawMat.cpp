@@ -23,16 +23,26 @@ int main(int argc, char **argv)
     TFile *opf=new TFile(filename,"RECREATE");
 
     int ngam,dt[10000];
-    float e[10000],eP[10000],fom[10000];
+    float e[10000],eP[10000];
+
+    // for GAMMATK
+    float fom[10000];
     tree->SetBranchAddress("ntk",&ngam);
     tree->SetBranchAddress("tke",&e);
     tree->SetBranchAddress("tkeP",&eP);
     tree->SetBranchAddress("tkdt",&dt);
     tree->SetBranchAddress("tkfom",&fom);
-
+/*
+    // for GAMMAGT
+    tree->SetBranchAddress("ng",&ngam);
+    tree->SetBranchAddress("ge",&e);
+    tree->SetBranchAddress("geP",&eP);
+    tree->SetBranchAddress("gdt",&dt);
+*/
     TH2F *pp = new TH2F("pp","prompt-prompt matrix gated on 136Ba delayed gamma",2000,0,2000,2000,0,2000);
 
     clock_t start=clock(),stop=clock();
+
     int nentries = tree->GetEntries();
     for (int jentry=0; jentry<nentries; jentry++)
     {
@@ -43,12 +53,13 @@ int main(int argc, char **argv)
                 for (int khit=0; khit<ngam; khit++)//delayed
                 {
                     if ( ihit == jhit || ihit == khit || jhit == khit ) continue;
-                    if ( fom[ihit]>0.8 || fom[jhit]>0.8 || fom[khit]>0.8 ) continue;
-                    if ( dt[ihit]>30 || dt[ihit]<-30 ) continue;    //prompt
-                    if ( dt[jhit]>30 || dt[jhit]<-30 ) continue;    //prompt
+                    if ( fom[ihit]>0.8 || fom[jhit]>0.8 || fom[khit]>0.8 ) continue;  // for GAMMATK
+                    if ( dt[ihit]>30 || dt[ihit]<-30 ) continue;    // prompt
+                    if ( dt[jhit]>30 || dt[jhit]<-30 ) continue;    // prompt
                     if ( abs(dt[ihit]-dt[jhit]) > 20 ) continue;
-                    if ( dt[khit]<30 ) continue;                    //delayed
+                    if ( dt[khit]<30 ) continue;                    // delayed
 
+                    // gate on all delayed gamma of 136Ba
                     double delayed[6] = {340.8,363.0,787.1,818.6,1048.0,1235.2};
                     bool is_136Ba = 0;
                     for (int i=0; i<6; i++)
@@ -56,7 +67,9 @@ int main(int argc, char **argv)
                             is_136Ba = 1;
                             break;
                         }
-                    if (is_136Ba) pp->Fill(eP[ihit],eP[jhit]);
+                    if (!is_136Ba) continue;
+
+                    pp->Fill(eP[ihit],eP[jhit]);
                 }
 
         //show progress and time needed
@@ -68,7 +81,8 @@ int main(int argc, char **argv)
             fflush(stdout);
         }
     }
-    printf("Process %.3f %%  Time remaining %02d min %02d s\r",100.,0,0);
+    stop = clock();
+    printf("Process %.3f %%  Total Time %02d min %02d s\r",100.,int((stop-start)/1e6/60),int((stop-start)/1e6)%60);
 
     opf->Write(NULL, TObject::kOverwrite);
     opf->Close();

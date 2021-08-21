@@ -23,15 +23,24 @@ int main(int argc, char **argv)
     TFile *opf=new TFile(filename,"RECREATE");
 
     int ngam,dt[10000];
-    float e[10000],fom[10000];
+    float e[10000];
+
+    // for GAMMATK
+    float fom[10000];
     tree->SetBranchAddress("ntk",&ngam);
     tree->SetBranchAddress("tke",&e);
     tree->SetBranchAddress("tkdt",&dt);
     tree->SetBranchAddress("tkfom",&fom);
-
+/*
+    // for GAMMAGT
+    tree->SetBranchAddress("ng",&ngam);
+    tree->SetBranchAddress("ge",&e);
+    tree->SetBranchAddress("gdt",&dt);
+*/
     TH2F *dd = new TH2F("dd","delayed-delayed g-g matrix",2000,0,2000,2000,0,2000);
 
     clock_t start=clock(),stop=clock();
+
     int nentries = tree->GetEntries();
     for (int jentry=0; jentry<nentries; jentry++)
     {
@@ -40,14 +49,14 @@ int main(int argc, char **argv)
             for (int jhit=0; jhit<ngam; jhit++)
             {
                 if ( ihit == jhit ) continue;
-                if ( fom[ihit]>0.8 || fom[jhit]>0.8 ) continue;
+                if ( fom[ihit]>0.8 || fom[jhit]>0.8 ) continue;  // for GAMMATK
                 if ( dt[ihit]<30 || dt[jhit]<30 ) continue;
                 if ( abs(dt[ihit]-dt[jhit]) > 20 ) continue;
 
                 dd->Fill(e[ihit],e[jhit]);
             }
 
-        //show progress and time needed
+        // display progress and time needed
         if (jentry%50000 == 49999 || jentry == nentries-1){
             stop = clock();
             printf("Process %.3f %%  Time remaining %02d min %02d s\r",double(jentry)/double(nentries)*100.,
@@ -56,7 +65,8 @@ int main(int argc, char **argv)
             fflush(stdout);
         }
     }
-    printf("Process %.3f %%  Time remaining %02d min %02d s\r",100.,0,0);
+    stop = clock();
+    printf("Process %.3f %%  Total Time %02d min %02d s\r",100.,int((stop-start)/1e6/60),int((stop-start)/1e6)%60);
 
     opf->Write(NULL, TObject::kOverwrite);
     opf->Close();

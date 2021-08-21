@@ -23,18 +23,28 @@ int main(int argc, char **argv)
     TFile *opf=new TFile(filename,"RECREATE");
 
     int ngam,dt[10000];
-    float e[10000],eP[10000],fom[10000];
+    float e[10000],eP[10000];
+
+    // for GAMMATK
+    float fom[10000];
     tree->SetBranchAddress("ntk",&ngam);
     tree->SetBranchAddress("tke",&e);
     tree->SetBranchAddress("tkeP",&eP);
     tree->SetBranchAddress("tkdt",&dt);
     tree->SetBranchAddress("tkfom",&fom);
-
+/*
+    // for GAMMAGT
+    tree->SetBranchAddress("ng",&ngam);
+    tree->SetBranchAddress("ge",&e);
+    tree->SetBranchAddress("geP",&eP);
+    tree->SetBranchAddress("gdt",&dt);
+*/
     // x:prompt y:delayed z:time
     /// note: bin number 1500*1500*200 is known to overflow
     TH3F *pdt = new TH3F("pdt","prompt-delayed-time gamma cube",1500,0,1500,1500,0,1500,100,0,1000);
 
     clock_t start=clock(),stop=clock();
+
     int nentries = tree->GetEntries();
     for (int jentry=0; jentry<nentries; jentry++)
     {
@@ -43,9 +53,9 @@ int main(int argc, char **argv)
             for (int jhit=0; jhit<ngam; jhit++)
             {
                 if ( ihit == jhit ) continue;
-                if ( fom[ihit]>0.8 || fom[jhit]>0.8 ) continue;
-                if ( dt[ihit]>30 || dt[ihit]<-30 ) continue;    //prompt
-                if ( dt[jhit]<30 ) continue;                    //delayed
+                if ( fom[ihit]>0.8 || fom[jhit]>0.8 ) continue; // for GAMMATK
+                if ( dt[ihit]>30 || dt[ihit]<-30 ) continue;    // prompt
+                if ( dt[jhit]<30 ) continue;                    // delayed
 
                 pdt->Fill(eP[ihit],e[jhit],dt[jhit]-dt[ihit]);
             }
@@ -59,7 +69,8 @@ int main(int argc, char **argv)
             fflush(stdout);
         }
     }
-    printf("Process %.3f %%  Time remaining %02d min %02d s\r",100.,0,0);
+    stop = clock();
+    printf("Process %.3f %%  Total Time %02d min %02d s\r",100.,int((stop-start)/1e6/60),int((stop-start)/1e6)%60);
 
     opf->Write(NULL, TObject::kOverwrite);
     opf->Close();

@@ -11,16 +11,15 @@
 #include "TTree.h"
 #include "TChain.h"
 
-TString rootfile="Gdd_100_109.root";//input
-TString ggfile="Gddmat_100_109.root";//output
-TH2D *hggb,*hggmat;
-void makeaggmat_100_109()
+TString rootfile="ROOT/Gpd.root";//input
+TString ggfile="ROOT/Gpdmat.root";//output
+void makeaggmat()
 {
     cout<<"Generate gg matix to ["<<ggfile<<"] from ["<<rootfile<<"]"<<endl;
     TFile *fin=TFile::Open(rootfile);
     TTree *tree=(TTree*)fin->Get("tree");
   
-    tree->Draw("ex:ey>>gg(2000,0,2000,2000,0,2000)","nd==2","colz");
+    tree->Draw("ed:epP>>gg(2000,0,2000,2000,0,2000)","np==1 && nd==1","colz");
     auto hgg=(TH2D*)gROOT->FindObject("gg");
     auto hx=(TH1D*)hgg->ProjectionX("xTpj");
 
@@ -43,14 +42,14 @@ void makeaggmat_100_109()
     hpeaky->Add(hy,hby,1,-1);
     hpeaky->Draw("same");
   
-    hggb=new TH2D("ggbmat","bgmat for gg",2000,0,2000,2000,0,2000);
+    TH2D *hggb=new TH2D("ggbmat","bgmat for gg",2000,0,2000,2000,0,2000);
     hggb->Reset();
     Double_t T,Pi,Pj,pi,pj,bi,bj,Bij,x,y;
     T=hx->Integral();
     for(int i=0;i<hgg->GetNbinsX();i++) {
       for(int j=0;j<hgg->GetNbinsY();j++) {
         // Pi=h->GetBinContent(i+1);
-        //Pj=h->GetBinContent(j+1);
+        // Pj=h->GetBinContent(j+1);
         pi=hpeakx->GetBinContent(i+1);
         pj=hpeaky->GetBinContent(j+1);
         bi=hbx->GetBinContent(i+1);
@@ -61,7 +60,7 @@ void makeaggmat_100_109()
         hggb->Fill(x,y,Bij);
       }
     }
-    hggmat=new TH2D("ggmat","gg with backsub",2000,0,2000,2000,0,2000);  
+    TH2D *hggmat=new TH2D("ggmat","gg with backsub",2000,0,2000,2000,0,2000);  
     hggmat->Add(hgg,hggb,1,-1);
  
     TFile *fout=new TFile(ggfile,"RECREATE");

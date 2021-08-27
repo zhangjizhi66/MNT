@@ -41,8 +41,10 @@ int main(int argc, char** argv)
     tree->SetBranchAddress("GeP",&GeP);
     tree->SetBranchAddress("Gdt",&Gdt);
     tree->SetBranchAddress("Gfom",&Gfom);
+    tree->SetBranchAddress("pseuQ",&pseuQ);
+    tree->SetBranchAddress("thetaT",&thetaT);
     
-    const char *filename = Form("Gpd_%d_%d.root",atoi(argv[1]),atoi(argv[2]));
+    const char *filename = Form("ROOT/Gpd_%d_%d.root",atoi(argv[1]),atoi(argv[2]));
     TFile *opf = new TFile(filename,"RECREATE");
     TTree *opt = new TTree("tree","tree");
     

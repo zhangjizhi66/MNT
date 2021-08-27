@@ -11,22 +11,21 @@ int nG,Gdt[10000];
 float Ge[10000],Gfom[10000];
 
 // buffer branches 
-Short_t ex_buf[10000],ey_buf[10000];
-Short_t tx_buf[10000],ty_buf[10000];
+Short_t ed_buf[10000],td_buf[10000];
 
 // Branches for new ROOT file
-Short_t nd;     // number of delayed gamma coincident
-Short_t ex,ey;   // energy
-Short_t tx,ty;  // time with respect to Chico event
+Short_t nd;     // number of gamma coincident
+Short_t e;   // energy
+Short_t t;  // time with respect to Chico event
 
 int main(int argc, char** argv)
 {
     if (argc != 3){
-        printf("USAGE: ./makeGddroot runid_1 runid_2");
+        printf("USAGE: ./makeGdroot runid_1 runid_2");
         exit(EXIT_FAILURE);
     }
     
-    std::ifstream ifs("../validID.txt");  // read valid run id
+    std::ifstream ifs("../validID.txt");
     int runid;
     TChain *tree = new TChain("tree");
     while (ifs>>runid)
@@ -38,44 +37,35 @@ int main(int argc, char** argv)
     tree->SetBranchAddress("Gdt",&Gdt);
     tree->SetBranchAddress("Gfom",&Gfom);
     
-    const char *filename = Form("ROOT/Gdd_%d_%d.root",atoi(argv[1]),atoi(argv[2]));
+    const char *filename = Form("ROOT/Gd_%d_%d.root",atoi(argv[1]),atoi(argv[2]));
     TFile *opf = new TFile(filename,"RECREATE");
     TTree *opt = new TTree("tree","tree");
     
     opt->Branch("nd",&nd,"nd/S");
-    opt->Branch("ex",&ex,"ex/S");
-    opt->Branch("ey",&ey,"ey/S");
-    opt->Branch("tx",&tx,"tx/S");
-    opt->Branch("ty",&ty,"ty/S");
+    opt->Branch("e",&e,"e/S");
+    opt->Branch("t",&t,"t/S");
     
     clock_t start=clock(),stop=clock();
     
     long long int nentries = tree->GetEntries();
     for (long long int jentry=0; jentry<nentries; jentry++){
         tree->GetEntry(jentry);
-        int nevent = 0;
-        for (int xhit=0; xhit<nG; xhit++)
-            for (int yhit=0; yhit<nG; yhit++){
-                if (xhit == yhit) continue;
-                if (Gfom[xhit]>0.8 || Gfom[yhit]>0.8) continue;
-                if (Ge[xhit]>2000 || Ge[yhit]>2000) continue;
-                if (Gdt[xhit]<30 || Gdt[yhit]<30) continue;  // delayed
-                if (abs(Gdt[xhit]-Gdt[yhit])>20) continue;  // coincident
-                
-                ex_buf[nevent] = Ge[xhit];
-                ey_buf[nevent] = Ge[yhit];
-                tx_buf[nevent] = Gdt[xhit];
-                ty_buf[nevent] = Gdt[yhit];
-                nevent++;
-            }
-        if (nevent >= 20) continue;  // ignore 5 or more multiplicity coincidence, must be fake
         
-        for (int n=0; n<nevent; n++){
-            nd = sqrt(nevent+0.25)+0.5;
-            ex = ex_buf[n];
-            ey = ey_buf[n];
-            tx = tx_buf[n];
-            ty = ty_buf[n];
+        nd=0;
+        for (int dhit=0; dhit<nG; dhit++){
+            if (Gfom[dhit]>0.8) continue;
+            if (Ge[dhit]>2000) continue;
+            if (Gdt[dhit]<=30) continue;  // delayed
+                
+            ed_buf[nd] = Ge[dhit];
+            td_buf[nd] = Gdt[dhit];
+            nd++;
+        }
+        if (nd>4) continue;  // ignore 5 or more multiplicity coincidence
+        
+        for (int d=0; d<nd; d++){
+            e = ed_buf[d];
+            t = td_buf[d];
             opt->Fill();
         }
         

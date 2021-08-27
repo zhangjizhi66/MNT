@@ -7,7 +7,7 @@ int xmax=1500;//range for hist
 int npeaks=30;//number of peaks for TSpectrum
 int dge1=-3;//gate width:ge+dge1 - ge+dge2
 int dge2=3;
-TString fname="Gddmat.root";
+TString fname="ROOT/Gpdmat.root";
 
 void agg();
 void setxrange(int xmin1=0, int xmax1=1500) {xmin=xmin1;xmax=xmax1;};

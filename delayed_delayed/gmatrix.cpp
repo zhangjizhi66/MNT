@@ -20,6 +20,8 @@ void gmatrix()
     Double_t gmin=0;
     Double_t gmax=2000;
     int ngbin=2000;
+    
+    TCut cut = "nd==2";
   
     TH2S *hg2xy;
     TH1S *hg2x;
@@ -31,10 +33,10 @@ void gmatrix()
 
     TSpectrum *sa=new TSpectrum(200);
   
-    tree->Draw("ex>>hg2x(2000,0,2000)","nd==2");
+    tree->Draw("ex>>hg2x(2000,0,2000)",cut);
     hg2x = (TH1S*)gROOT->FindObject("hg2x");
     
-    tree->Draw("ey:ex>>hg2xy(2000,0,2000,2000,0,2000)","nd==2");
+    tree->Draw("ey:ex>>hg2xy(2000,0,2000,2000,0,2000)",cut);
     hg2xy = (TH2S*)gROOT->FindObject("hg2xy");
 
     //"nosmoothing" option to avoid overestimation of the background 

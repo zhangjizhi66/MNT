@@ -26,6 +26,8 @@ int main(int argc, char** argv)
         exit(EXIT_FAILURE);
     }
     
+    printf("making ROOT files %d to %d ......\n",atoi(argv[1]),atoi(argv[2]));
+    
     std::ifstream ifs("../validID.txt");  // read valid run id
     int runid;
     TChain *tree = new TChain("tree");
@@ -68,10 +70,10 @@ int main(int argc, char** argv)
                 ty_buf[nevent] = Gdt[yhit];
                 nevent++;
             }
-        if (nevent >= 20) continue;  // ignore 5 or more multiplicity coincidence, must be fake
+        if (nevent > 12) continue;  // ignore 3 or more multiplicity coincidence, must be fake
         
         for (int n=0; n<nevent; n++){
-            nd = sqrt(nevent+0.25)+0.5;
+            nd = nevent;
             ex = ex_buf[n];
             ey = ey_buf[n];
             tx = tx_buf[n];

@@ -32,6 +32,6 @@ delayed 条件：t > 30 ns
 
 两个参数分别为需要运行的 runid 上下界，参数可以不是实际的 runid
 
-本程序没有编写脚本，可直接运行 ./makeGdroot 82 217 ，生成文件 ROOT/Gd.root 用于 ana.ipynb 的分析
+本程序没有编写脚本，需要先在目录下创建 ROOT 文件夹，然后可直接运行 ./makeGdroot 82 217 ，生成文件 ROOT/Gd.root 用于 ana.ipynb 的分析
 
 ## ana.ipynb：半衰期计算

@@ -38,6 +38,7 @@ int main(int argc, char** argv)
     tree->SetBranchAddress("Gfom",&Gfom);
     
     const char *filename = Form("ROOT/Gd_%d_%d.root",atoi(argv[1]),atoi(argv[2]));
+    if (atoi(argv[1])<=82 && atoi(argv[2])>=217) filename = "ROOT/Gd.root";
     TFile *opf = new TFile(filename,"RECREATE");
     TTree *opt = new TTree("tree","tree");
     

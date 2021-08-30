@@ -5,6 +5,7 @@
 束流：136Xe @ 1088 MeV
 
 靶：198Pt
+
 探测阵列：Chico2 + GRETINA @ Argonne National Laboratory
 
 

@@ -44,7 +44,7 @@ ed/S、epP/S、epT/S：delayed、prompt corrected by Projectile、prompt correct
 
 td/S、tp/S：时间（ns，相对 Chico 事件）
 
-pseuQ/S、thetaT/S：赝Q值(keV)、类靶散射角(deg)
+pseuQ/S、thetaT/S：赝Q值(keV)、类靶核散射角(deg)
 
 ### cut 条件
 

@@ -46,4 +46,6 @@ delayed 条件：t > 30 ns
 
 两个参数分别为需要运行的 runid 上下界，参数可以不是实际的 runid
 
-## ana.ipynb：半衰期计算
+## ana.ipynb
+
+136Ba 10+ isomer 寿命计算

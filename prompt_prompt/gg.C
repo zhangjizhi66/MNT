@@ -14,7 +14,7 @@ struct parameters
 parameters st;
 TList *tall;
 
-TString fname="gg46_123_200ms.root";//filename;
+TString fname="ROOT/Gppmat.root";//filename;
 
 void gg();
 void setxrange(int xmin1=0, int xmax1=2000){ st.xmin=xmin1; st.xmax=xmax1;};
@@ -96,7 +96,7 @@ void gg()
 void tpjm()
 {
   newcanvas(2);
-  setxrange(0,1000);
+  setxrange(0,1500);
   tpj(1);
   setxrange(750,2000);
   tpj(2);
@@ -318,7 +318,7 @@ TString peaks(TH1 *h, Double_t thres)
   double ymin=h->GetBinContent(h->GetMinimumBin());
   double ymax=h->GetBinContent(h->GetMaximumBin())*1.3;
   if(ymin<0) ymin=0.01;
-  cout<<ic<<" "<<icy<<" "<<h->GetName()<<"  ["<<h->GetTitle()<<"]"<<endl; 
+  //cout<<ic<<" "<<icy<<" "<<h->GetName()<<"  ["<<h->GetTitle()<<"]"<<endl; 
   h->SetLineColor(kBlue);
   h->SetFillColor(kCyan);
   TSpectrum *s=new TSpectrum(500);

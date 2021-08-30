@@ -72,5 +72,7 @@ gtk 条件：品质因数 Gfom <= 0.8
 
 在 ROOT 环境下运行 .x gg.C（jupyter 中运行 gROOT->ProcessLine(".x gg.C") ）
 
-## ana.ipynb：分析过程
+## ana.ipynb
+
+符合矩阵开窗
 

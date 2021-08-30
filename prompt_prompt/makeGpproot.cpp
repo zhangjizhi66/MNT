@@ -79,7 +79,7 @@ int main(int argc, char** argv)
                 eTy_buf[nevent] = GeT[yhit];
                 nevent++;
             }
-        if (nevent >= 12) continue;  // ignore 4 or more multiplicity coincidence, must be fake
+        if (nevent >= 6) continue;  // ignore 3 or more multiplicity coincidence, must be fake
         
         for (int n=0; n<nevent; n++){
             //if(eTx_buf[n]>=401 && eTx_buf[n]<=411) continue;

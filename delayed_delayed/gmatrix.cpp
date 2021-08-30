@@ -2,17 +2,6 @@ void gmatrix()
 {
     TFile *fin=new TFile("ROOT/Gdd.root");
     TTree *tree=(TTree*)fin->Get("tree");
-    Short_t        nd;
-    Short_t        ex;  
-    Short_t        ey;  
-    Short_t        tx;   
-    Short_t        ty;
-
-    tree->SetBranchAddress("nd",&nd);
-    tree->SetBranchAddress("ex",&ex);
-    tree->SetBranchAddress("ey",&ey);
-    tree->SetBranchAddress("tx",&tx);
-    tree->SetBranchAddress("ty",&ty);
 
     TFile *fout=new TFile("ROOT/Gddmat.root","RECREATE");
 

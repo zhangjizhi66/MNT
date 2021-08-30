@@ -28,7 +28,7 @@ int main(int argc, char** argv)
         exit(EXIT_FAILURE);
     }
     
-    printf("making ROOT files %d to %d ......\n",atoi(argv[1]),atoi(argv[2]));
+    printf("\nmaking ROOT files %d to %d ......\n",atoi(argv[1]),atoi(argv[2]));
     
     std::ifstream ifs("../validID.txt");
     int runid;
@@ -83,7 +83,7 @@ int main(int argc, char** argv)
         for (int dhit=0; dhit<nG; dhit++){
             if (Gfom[dhit]>0.8) continue;
             if (Ge[dhit]>2000) continue;
-            if (Gdt[dhit]<30) continue;  // delayed
+            if (Gdt[dhit]<=30) continue;  // delayed
                 
             ed_buf[nd] = Ge[dhit];
             td_buf[nd] = Gdt[dhit];

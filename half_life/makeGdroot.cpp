@@ -25,6 +25,8 @@ int main(int argc, char** argv)
         exit(EXIT_FAILURE);
     }
     
+    printf("\nmaking ROOT files %d to %d ......\n",atoi(argv[1]),atoi(argv[2]));
+    
     std::ifstream ifs("../validID.txt");
     int runid;
     TChain *tree = new TChain("tree");

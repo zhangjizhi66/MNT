@@ -8,7 +8,21 @@
 
 ./CAL_DATA
 
-## ConvertData：将原始数据转化为 ROOT 文件
+## convert.sh
+
+1、创建 ../CHICO_ROOT ../GAMMAGT_ROOT ../GAMMATK_ROOT 文件夹
+
+2、用 make 方法创建 ConvertData 可执行文件
+
+3、从 ../validID.txt 中读取 runid，批量运行 ConvertData 程序
+
+### 运行
+
+./convert.sh (runid)
+
+脚本将批量运行大于等于给定参数的 runid，参数可以不是实际的 runid
+
+## ConvertData
 
 将原始数据转化为 ROOT 文件，三类事件（Chico、GAMMAGT、GAMMATK）分别存储
 
@@ -79,14 +93,6 @@ x0/F y0/F z0/F e0/F：第一作用点的坐标以及损失的能量(keV)
 
 x1/F y1/F z1/F e1/F：第二作用点的坐标以及损失的能量(keV)
 
-## convert.sh：批量运行 ConvertData 程序
+## ana.ipynb
 
-从 ../validID.txt 中读取 runid，批量运行 ConvertData 程序
-
-### 运行
-
-./convert.sh (runid)
-
-脚本将批量运行大于等于给定参数的 runid，参数可以不是实际的 runid
-
-## ana.ipynb：分析三类事件的时间分布情况
+分析三类事件的时间分布情况

@@ -1,7 +1,14 @@
 # ROOT file directory
-/CHICO_ROOT/*
-/GAMMAGT_ROOT/*
-/GAMMATK_ROOT/*
-/COIN_ROOT/*
+/CHICO_ROOT/
+/GAMMAGT_ROOT/
+/GAMMATK_ROOT/
+/COIN_ROOT/
+ROOT/
+
+# jupyter files
+.ipynb_checkpoints/
+/jupyter_notebook_config.py
+
+/gg_example/
 
 *.root

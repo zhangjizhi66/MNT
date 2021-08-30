@@ -26,7 +26,7 @@ int main(int argc, char** argv)
         exit(EXIT_FAILURE);
     }
     
-    printf("making ROOT files %d to %d ......\n",atoi(argv[1]),atoi(argv[2]));
+    printf("\nmaking ROOT files %d to %d ......\n",atoi(argv[1]),atoi(argv[2]));
     
     std::ifstream ifs("../validID.txt");  // read valid run id
     int runid;
@@ -61,7 +61,7 @@ int main(int argc, char** argv)
                 if (xhit == yhit) continue;
                 if (Gfom[xhit]>0.8 || Gfom[yhit]>0.8) continue;
                 if (Ge[xhit]>2000 || Ge[yhit]>2000) continue;
-                if (Gdt[xhit]<30 || Gdt[yhit]<30) continue;  // delayed
+                if (Gdt[xhit]<=30 || Gdt[yhit]<=30) continue;  // delayed
                 if (abs(Gdt[xhit]-Gdt[yhit])>20) continue;  // coincident
                 
                 ex_buf[nevent] = Ge[xhit];
@@ -70,7 +70,7 @@ int main(int argc, char** argv)
                 ty_buf[nevent] = Gdt[yhit];
                 nevent++;
             }
-        if (nevent > 12) continue;  // ignore 3 or more multiplicity coincidence, must be fake
+        if (nevent >= 12) continue;  // ignore 4 or more multiplicity coincidence, must be fake
         
         for (int n=0; n<nevent; n++){
             nd = nevent;

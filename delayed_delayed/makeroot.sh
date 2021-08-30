@@ -3,6 +3,8 @@ if [ ! -d "ROOT" ]; then
   mkdir ROOT
 fi
 
+make makeGddroot
+
 ./makeGddroot 80 89
 ./makeGddroot 90 99
 ./makeGddroot 100 109

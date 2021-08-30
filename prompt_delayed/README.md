@@ -6,9 +6,23 @@
 
 ../validID.txt  （记录 runid 编号）
 
+## makeroot.sh
+
+1、在当前目录创建 ROOT 文件夹
+
+2、用 make 方法创建 makeGpdroot 可执行文件
+
+3、以 10-20 个 run 为一组，生成 ROOT/Gpd_%d_%d.root 文件
+
+4、合并以上 ROOT 文件为 ROOT/Gpd.root
+
+### 运行
+
+./makeroot.sh
+
 ## makeGpdroot：生成 ROOT 文件
 
-将 prompt 和 delayed gamma 的能量、时间存为 ROOT 文件。ROOT 文件路径为 ./ROOT/
+将 prompt 和 delayed gamma 的能量、时间存为 ROOT 文件。ROOT 文件路径为 ./ROOT/Gpd_%d_%d.root
 
 G：使用 gtk 类型的 gamma
 
@@ -34,23 +48,15 @@ pseuQ/S、thetaT/S：赝Q值(keV)、类靶散射角(deg)
 
 ### cut 条件
 
-delayed 条件：gamma 与 Chico 的时间差 >= 30 ns
+delayed 条件：gamma 与 Chico 的时间差 > 30 ns
 
 prompt 条件：gamma 与 Chico 的时间差 <= 20 ns
 
-gtk 条件：品质因数 Gfom < 0.8
+gtk 条件：品质因数 Gfom <= 0.8
 
-能量范围：Ge < 2000
+能量范围：Ge <= 2000
 
 多重性：分支 nd <= 2，np <= 2
-
-## makeroot.sh：批量生成 ROOT 文件
-
-以 10-20 个 run 为一组，生成 ROOT 文件，随后合并为 Gpd.root
-
-### 运行
-
-./makeroot.sh
 
 ## gamma 符合分析代码
 
@@ -60,13 +66,13 @@ gtk 条件：品质因数 Gfom < 0.8
 
 从 ROOT/Gpd.root 生成 gamma 符合矩阵，用 radware **非对称**本底矩阵减扣本底
 
-在 ROOT 环境下运行 .x makeaggmat.C
+在 ROOT 环境下运行 .x makeaggmat.C（jupyter 中运行 gROOT->ProcessLine(".x makeaggmat.C") ）
 
 ### agg.C
 
 载入 gamma 符合分析函数
 
-在 ROOT 环境下运行 .x agg.C
+在 ROOT 环境下运行 .x agg.C（jupyter 中运行 gROOT->ProcessLine(".x agg.C") ）
 
 ## ana.ipynb：分析过程
 

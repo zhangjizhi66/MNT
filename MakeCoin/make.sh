@@ -3,6 +3,8 @@ if [ ! -d "../COIN_ROOT" ]; then
   mkdir ../COIN_ROOT
 fi
 
+make MakeCoin
+
 while read -d ' ' runid
 do
 	if [ $runid -ge $1 ]

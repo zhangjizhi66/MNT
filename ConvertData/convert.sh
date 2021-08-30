@@ -11,6 +11,8 @@ if [ ! -d "../GAMMATK_ROOT" ]; then
   mkdir ../GAMMATK_ROOT
 fi
 
+make ConvertData
+
 while read -d ' ' runid
 do
 	if [ $runid -ge $1 ]

@@ -6,6 +6,20 @@
 
 ../validID.txt
 
+## makeroot.sh
+
+1、在当前目录创建 ROOT 文件夹
+
+2、用 make 方法创建 makeGdroot 可执行文件
+
+3、以 10-20 个 run 为一组，生成 ROOT/Gd_%d_%d.root 文件
+
+4、合并以上 ROOT 文件为 ROOT/Gd.root
+
+### 运行
+
+./makeroot.sh
+
 ## makeGdroot
 
 将 delayed gamma 信息另存为 ROOT 文件
@@ -31,7 +45,5 @@ delayed 条件：t > 30 ns
 ./makeGdroot (runid) (runid)
 
 两个参数分别为需要运行的 runid 上下界，参数可以不是实际的 runid
-
-本程序没有编写脚本，需要先在目录下创建 ROOT 文件夹，然后可直接运行 ./makeGdroot 82 217 ，生成文件 ROOT/Gd.root 用于 ana.ipynb 的分析
 
 ## ana.ipynb：半衰期计算

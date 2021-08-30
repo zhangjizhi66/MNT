@@ -6,20 +6,6 @@
 
 ../validID.txt  （记录 runid 编号）
 
-## makeroot.sh
-
-1、在当前目录创建 ROOT 文件夹
-
-2、用 make 方法创建 makeGddroot 可执行文件
-
-3、以 10-20 个 run 为一组，生成 ROOT/Gdd_%d_%d.root 文件
-
-4、合并以上 ROOT 文件为 ROOT/Gdd.root
-
-### 运行
-
-./makeroot.sh
-
 ## makeGddroot：生成 ROOT 文件
 
 将 delayed gamma 的能量、时间按 x轴、y轴存为 ROOT 文件。ROOT 文件路径为 ./ROOT/
@@ -56,6 +42,14 @@ gtk 条件：品质因数 Gfom <= 0.8
 
 多重性：分支 nd < 12
 
+## makeroot.sh：批量生成 ROOT 文件
+
+以 10-20 个 run 为一组，生成 ROOT 文件，随后合并为 Gdd.root
+
+### 运行
+
+./makeroot.sh
+
 ## gamma 符合分析代码
 
 根据 [https://github.com/zhihuanli/gamma-gamma-coincidence-analysis/tree/master/prompt%20gg] 修改而成
@@ -64,13 +58,13 @@ gtk 条件：品质因数 Gfom <= 0.8
 
 从 ROOT/Gdd.root 生成 gamma 符合矩阵，并用 radware 方法减扣本底
 
-在 ROOT 环境下运行 .x gmatrix.cpp（jupyter 中运行 gROOT->ProcessLine(".x gmatrix.cpp") ）
+在 ROOT 环境下运行 .x gmatrix.cpp
 
 ### gg.C
 
 载入 gamma 符合分析函数
 
-在 ROOT 环境下运行 .x gg.C（jupyter 中运行 gROOT->ProcessLine(".x gg.C") ）
+在 ROOT 环境下运行 .x gg.C
 
 ## ana.ipynb：分析过程
 

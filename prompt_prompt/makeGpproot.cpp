@@ -27,6 +27,8 @@ int main(int argc, char** argv)
         exit(EXIT_FAILURE);
     }
     
+    printf("\nmaking ROOT files %d to %d ......\n",atoi(argv[1]),atoi(argv[2]));
+    
     std::ifstream ifs("../validID.txt");
     int runid;
     TChain *tree = new TChain("tree");
@@ -68,7 +70,7 @@ int main(int argc, char** argv)
                 if (xhit == yhit) continue;
                 if (Gfom[xhit]>0.8 || Gfom[yhit]>0.8) continue;
                 if (Ge[xhit]>2000 || Ge[yhit]>2000) continue;
-                if (Gdt[xhit]<-30 || Gdt[yhit]>30) continue;  // prompt
+                if (abs(Gdt[xhit])>30 || abs(Gdt[yhit])>30) continue;  // prompt
                 if (abs(Gdt[xhit]-Gdt[yhit])>20) continue;  // coincident
                 
                 ePx_buf[nevent] = GeP[xhit];
@@ -77,7 +79,7 @@ int main(int argc, char** argv)
                 eTy_buf[nevent] = GeT[yhit];
                 nevent++;
             }
-        if (nevent >= 20) continue;  // ignore 5 or more multiplicity coincidence, must be fake
+        if (nevent >= 12) continue;  // ignore 4 or more multiplicity coincidence, must be fake
         
         for (int n=0; n<nevent; n++){
             //if(eTx_buf[n]>=401 && eTx_buf[n]<=411) continue;
@@ -89,7 +91,7 @@ int main(int argc, char** argv)
             // if(eTy_buf[n]>=353 && eTy_buf[n]<=358) continue;
             //if(eTy_buf[n]>=364 && eTy_buf[n]<=370) continue;
             
-            np = sqrt(nevent+0.25)+0.5;
+            np = nevent;
             ePx = ePx_buf[n];
             ePy = ePy_buf[n];
             eTx = eTx_buf[n];

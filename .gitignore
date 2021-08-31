@@ -8,6 +8,7 @@ ROOT/
 # jupyter files
 .ipynb_checkpoints/
 /jupyter_notebook_config.py
+*.ipynb
 
 /gg_example/
 

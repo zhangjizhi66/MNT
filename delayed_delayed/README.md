@@ -22,7 +22,7 @@
 
 ## makeGddroot：生成 ROOT 文件
 
-将 delayed gamma 的能量、时间按 x轴、y轴存为 ROOT 文件。ROOT 文件路径为 ./ROOT/
+将 delayed gamma 的能量、时间按 x轴、y轴存为 ROOT 文件。生成 ROOT 文件路径为 ./ROOT/Gdd_%d_%d.root
 
 G：使用 gtk 类型的 gamma
 

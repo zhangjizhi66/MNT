@@ -7,7 +7,7 @@
 #include <time.h>
 #include <vector>
 
-#include "makeCoin.h"
+#include "MakeCoin.h"
 
 #define maxCoin 10000
 #define winCoin 2000 //2us, according to /data/d3/zhangjizhi/MNT/ana_convert.ipynb @ 162.105.151.64
@@ -342,7 +342,7 @@ int main(int argc, char **argv)
     std::vector<std::vector<int>> vgt(nentriesChico,std::vector<int>());
     std::vector<std::vector<int>> vtk(nentriesChico,std::vector<int>());
 
-    printf("making coincident event %04d ......\nclassifying timestamp ......\n",runid);
+    printf("making coincident event %04d ......\nsorting timestamp ......\n",runid);
 
     start = clock();
     Int_t ientry=0,jentry=0,kentry=0;

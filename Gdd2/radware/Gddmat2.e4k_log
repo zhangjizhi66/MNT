@@ -1,0 +1,19 @@
+30-Nov-21 10:28:11: Created new escl8r data file Gddmat.e4k_log
+      ...from matrix file Gddmat2.m4b
+      ...by taking all 4k channels.
+30-Nov-21 10:28:20: Energy calibration file = demo.aca
+30-Nov-21 10:28:24: Efficiency calibration file = demo
+30-Nov-21 10:28:30: Error for energy calibration = 0.030000
+30-Nov-21 10:28:30: Percentage error on efficiency = 3.000000
+30-Nov-21 10:28:32: Gaussian peak shapes selected.
+30-Nov-21 10:28:34: Peak width parameters = 3.000000 1.414214 0.000000
+30-Nov-21 10:28:34: New background spectra, no E2-enhancement.
+       ...Total projection spectrum file name =  xtpj.spe
+       ...Total background spectrum file name =  bg.spe
+30-Nov-21 10:28:47: Percentage error on background = 5.000000
+30-Nov-21 10:28:47:  2D Scaling factor = 13043.166992
+30-Nov-21 12:10:04: Created new escl8r data file Gddmat2.e4k_log
+      ...from matrix file Gddmat2.m4b
+      ...by taking all 4k channels.
+30-Nov-21 12:12:10: Energy calibration file = demo
+30-Nov-21 12:13:16: Efficiency calibration file = demo

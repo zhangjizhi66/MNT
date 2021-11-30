@@ -1,6 +1,7 @@
 #!/bin/bash
-if [ ! -d "../COIN_ROOT" ]; then
-  mkdir ../COIN_ROOT
+if [ ! -d "../new_COIN_ROOT" ]; then
+  echo "making directory ..."
+  mkdir ../new_COIN_ROOT
 fi
 
 make MakeCoin

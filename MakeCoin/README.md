@@ -1,4 +1,4 @@
-# 组织符合事件
+# 组织符合事件（修改版）
 
 ## 必需文件
 
@@ -14,7 +14,7 @@
 
 ## make.sh
 
-1、创建 ../COIN_ROOT 文件夹
+1、创建 ../new_COIN_ROOT 文件夹
 
 2、用 make 方法创建 MakeCoin 可执行文件
 
@@ -60,7 +60,7 @@ massT/F massP/F：核子质量(amu)；在本程序中利用 theta phi 通过两�
 
 betaT/F betaP/F：核子速度(c)，即相对论因子；在本程序中利用 theta phi 通过两体动力学算出
 
-pP/F pT/F：核子动量
+pP/F pT/F：核子动量，SI单位制下写作p=mvc/MeV=mv*3e8/1.602e-13
 
 pseuQ/F realQ/F：赝Q值和真实Q值(keV)；由于核子质量的分辨不好，用原来的弹核和靶核的质量代替，算出的Q值为赝Q值
 
